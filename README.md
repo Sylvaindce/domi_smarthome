@@ -1,4 +1,4 @@
-# domotique_smarthome_api
+# domi_smarthome
 Domotique SmartHome API centralize your RF433 sensors to be manage through internet - Python
 
 Hardware:
