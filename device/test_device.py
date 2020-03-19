@@ -25,17 +25,17 @@ class test_device(object):
 
         while True:
             try:
-                message = self.__socket.recv_json()
+                message = self.__socket.recv_json(flags = 1)
             except:
                 continue
             print(message)
 
     def service_shutdown(self, signum, frame):
         print("Caught signal %d" % signum)
-        self.__socket.unsubscribe("")
+        #self.__socket.unsubscribe("")
         self.__socket.close()
         raise ServiceExit
-        
+
 
 if __name__ == "__main__":
-    server = test_device()
+    test_device()

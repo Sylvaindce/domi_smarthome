@@ -20,7 +20,7 @@ class transmitter(Thread):
     def __init_rf(self, gpio):
         self.__rf_snd = rpi_rf.RFDevice(gpio)
         self.__rf_snd.enable_tx()
-        self.__rf_snd.tx_repeat = 10
+        self.__rf_snd.tx_repeat = 50
 
     def __init_zmq(self, zmq_addr):
         zmq_context = zmq.Context()
@@ -30,12 +30,19 @@ class transmitter(Thread):
 
 
     def __get_data(self):
+        print("[Transmitter] Start")
         while self.__run:
             msg = self.__domi_zmq_sub.recv_json()
+            print("[Transmitter]", msg)
             try:
-                self.__rf_snd.tx_code(msg.get("code", 0), msg.get("protocol", 1), msg.get("pulse_length", 350), msg.get("lenght", 24))
-            except:
+                #self.__rf_snd.enable_tx()
+                #self.__rf_snd.tx_repeat = 10
+                self.__rf_snd.tx_code(msg.get("code", 0), msg.get("protocol", None), msg.get("pulse_length", None), msg.get("lenght", None))
+                #self.__rf_snd.disable_tx()
+            except Exception as ex:
+                print(ex)
                 pass
+            time.sleep(0.01)
 
     def run(self):
         self.__run = True
@@ -44,3 +51,4 @@ class transmitter(Thread):
     def stop(self):
         self.__run = False
         self.__rf_snd.cleanup()
+        print("[Transmitter] Stop")

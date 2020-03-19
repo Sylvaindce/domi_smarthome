@@ -28,14 +28,14 @@ class domi_smarthome(object):
         try:
             for canal in self.__canals:
                 canal.start()
-            while self.__canals[0].is_alive():
-                pass
+            #while self.__canals[0].is_alive():
+            #    pass
         except ServiceExit:
             print("Stop Thread")
             for canal in self.__canals:
                 canal.stop()
                 canal.join()
-            
+
     def service_shutdown(self, signum, frame):
         print("Caught signal %d" % signum)
         raise ServiceExit

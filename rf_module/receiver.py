@@ -1,10 +1,10 @@
 import sys, os, time
 from threading import Thread
 
-__lib_path = os.path.realpath("../lib/rpi-rf/")
-None if __lib_path in sys.path else sys.path.insert(0, __lib_path)
+#__lib_path = os.path.realpath("../lib/rpi-rf/")
+#None if __lib_path in sys.path else sys.path.insert(0, __lib_path)
 
-import rpi_rf.rpi_rf as rpi_rf
+import rpi_rf
 import zmq
 
 
@@ -27,10 +27,12 @@ class receiver(Thread):
         self.__domi_zmq_pub.bind(zmq_addr)
 
     def __get_data(self):
+        print("[Receiver] Start")
         timestamp = None
         while self.__run:
             if self.__rf_recv.rx_code_timestamp != timestamp:
                 timestamp = self.__rf_recv.rx_code_timestamp
+                print("[Reveiver]", self.__rf_recv.rx_code)
                 self.__domi_zmq_pub.send_json({
                     "code" : self.__rf_recv.rx_code,
                     "pulse_length" : self.__rf_recv.rx_pulselength,
@@ -45,3 +47,4 @@ class receiver(Thread):
     def stop(self):
         self.__run = False
         self.__rf_recv.cleanup()
+        print("[Receiver] Stop")
