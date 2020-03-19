@@ -1,10 +1,10 @@
 import sys, os, time
 from threading import Thread
 
-#__lib_path = os.path.realpath("../lib/rpi-rf/")
-#None if __lib_path in sys.path else sys.path.insert(0, __lib_path)
+__lib_path = os.path.realpath("../lib/rpi-rf/")
+None if __lib_path in sys.path else sys.path.insert(0, __lib_path)
 
-import rpi_rf
+import rpi_rf.rpi_rf as rpi_rf
 import zmq
 
 
