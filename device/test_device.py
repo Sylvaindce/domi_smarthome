@@ -25,7 +25,7 @@ class test_device(object):
 
         while True:
             try:
-                message = self.__socket.recv_json(flags = 1)
+                message = self.__socket.recv_json()
             except:
                 continue
             print(message)
